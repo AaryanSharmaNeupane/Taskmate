@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taskmate/notes_list_provider.dart';
 
 class ShowNotes extends StatelessWidget {
   ShowNotes({super.key});
@@ -22,33 +24,9 @@ class ShowNotes extends StatelessWidget {
         });
   }
 
-  final List<Map<String, dynamic>> task = [
-    {
-      'id': 1,
-      'title': 'Swim',
-      'description': 'I need to go swimming to reduce weight'
-    },
-    {
-      'id': 2,
-      'title': 'Run',
-      'description':
-          'I need to go running to improve endurance I need to go running to improve endurance I need to go running to improve endurance'
-    },
-    {
-      'id': 3,
-      'title': 'Study',
-      'description': 'I need to study for my upcoming exam'
-    },
-    {
-      'id': 4,
-      'title': 'Sleep',
-      'description':
-          'I need to get enough sleep for better health I need to get enough sleep for better health I need to get enough sleep for better health'
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final task = Provider.of<NotesListProvider>(context).notes;
     return GridView.builder(
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),

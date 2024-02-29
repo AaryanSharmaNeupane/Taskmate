@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taskmate/notes_list_provider.dart';
 
 class WriteNotes extends StatelessWidget {
-  const WriteNotes({super.key});
+  WriteNotes({super.key});
+  var title = TextEditingController();
+  var description = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +17,11 @@ class WriteNotes extends StatelessWidget {
           ),
           ListTile(
             title: TextField(
+              controller: title,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8))),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              ),
             ),
           ),
           const ListTile(
@@ -23,12 +29,21 @@ class WriteNotes extends StatelessWidget {
           ),
           ListTile(
             title: TextField(
+              controller: description,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8))),
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: Text("Save")),
+          ElevatedButton(
+              onPressed: () =>
+                  Provider.of<NotesListProvider>(context, listen: false)
+                      .addNotes({
+                    "id": 100,
+                    "title": title.text,
+                    "description": description.text,
+                  }),
+              child: const Text("Save")),
         ],
       ),
     );
