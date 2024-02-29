@@ -14,12 +14,21 @@ class ShowNotes extends StatelessWidget {
     }
   }
 
-  void showFullNotes(BuildContext context) {
+  void showFullNotes(BuildContext context, String id) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("hey"),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Provider.of<NotesListProvider>(context, listen: false)
+                        .deleteNotes(id);
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.delete))
+            ],
           );
         });
   }
@@ -33,7 +42,7 @@ class ShowNotes extends StatelessWidget {
         itemCount: task.length,
         itemBuilder: ((context, index) {
           return InkWell(
-            onTap: () => showFullNotes(context),
+            onTap: () => showFullNotes(context, task[index]["id"]),
             child: Card(
               margin: const EdgeInsets.all(12),
               child: Padding(

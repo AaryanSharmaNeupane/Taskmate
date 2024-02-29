@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskmate/showNotes.dart';
-import 'package:taskmate/writeNotes.dart';
+import 'package:taskmate/show_notes.dart';
+import 'package:taskmate/write_notes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -34,11 +34,16 @@ class _HomeState extends State<Home> {
           });
         },
         backgroundColor: const Color.fromARGB(255, 236, 110, 211),
+        selectedItemColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.note_add_rounded), label: "Write Notes"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.note_sharp), label: "Show Notes")
+            icon: Icon(
+              Icons.note_sharp,
+            ),
+            label: "Show Notes",
+          ),
         ],
       ),
     );

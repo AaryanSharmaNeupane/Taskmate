@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/notes_list_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class WriteNotes extends StatelessWidget {
   WriteNotes({super.key});
-  var title = TextEditingController();
-  var description = TextEditingController();
+  final _title = TextEditingController();
+  final _description = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class WriteNotes extends StatelessWidget {
           ),
           ListTile(
             title: TextField(
-              controller: title,
+              controller: _title,
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -29,20 +30,26 @@ class WriteNotes extends StatelessWidget {
           ),
           ListTile(
             title: TextField(
-              controller: description,
+              controller: _description,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8))),
             ),
           ),
           ElevatedButton(
-              onPressed: () =>
-                  Provider.of<NotesListProvider>(context, listen: false)
-                      .addNotes({
-                    "id": 100,
-                    "title": title.text,
-                    "description": description.text,
-                  }),
+              onPressed: () {
+                Provider.of<NotesListProvider>(context, listen: false)
+                    .addNotes({
+                  "id": const Uuid()
+                      .v4(), //Here, Uuid package is used to create a universally unique id
+                  "title": _title.text,
+                  "description": _description.text,
+                });
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text("Notes Saved")));
+                _title.clear();
+                _description.clear();
+              },
               child: const Text("Save")),
         ],
       ),
