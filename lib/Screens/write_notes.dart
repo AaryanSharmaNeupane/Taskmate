@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmate/notes_list_provider.dart';
+import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class WriteNotes extends StatelessWidget {
   WriteNotes({super.key});
+
+  static const routeName = "/write_notes";
   final _title = TextEditingController();
   final _description = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Taskmate",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color.fromARGB(255, 236, 110, 211),
+      ),
       body: ListView(
         children: [
           const ListTile(

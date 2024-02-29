@@ -28,9 +28,11 @@ class NotesListProvider extends ChangeNotifier {
 
   void addNotes(note) {
     notes.add(note);
+    notifyListeners();
   }
 
   void deleteNotes(id) {
     notes.removeWhere((note) => note['id'] == id);
+    notifyListeners();
   }
 }

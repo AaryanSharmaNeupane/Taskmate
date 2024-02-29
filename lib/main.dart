@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmate/home.dart';
-import 'package:taskmate/notes_list_provider.dart';
+import 'package:taskmate/Provider/notes_list_provider.dart';
+import 'package:taskmate/Screens/home.dart';
+import 'package:taskmate/Screens/show_full_notes.dart';
+import 'package:taskmate/Screens/write_notes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,10 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const Home(),
+        routes: {
+          "/": (context) => const ShowNotes(),
+          WriteNotes.routeName: (context) => WriteNotes(),
+        },
       ),
     );
   }
