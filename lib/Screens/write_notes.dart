@@ -10,6 +10,7 @@ class WriteNotes extends StatelessWidget {
   WriteNotes({super.key});
 
   static const routeName = "/write_notes";
+
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
 
@@ -82,9 +83,30 @@ class WriteNotes extends StatelessWidget {
             notesForm(context, title, description),
             ElevatedButton(
               onPressed: () {
-                saveNotes(context, title.text, description.text, editId);
-                title.clear();
-                description.clear();
+                if (title.text != "" || description.text != "") {
+                  saveNotes(context, title.text, description.text, editId);
+                  title.clear();
+                  description.clear();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        "Must fill title or description",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      backgroundColor: const Color.fromARGB(255, 198, 7, 7),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

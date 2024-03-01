@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/home.dart';
+
 import 'package:taskmate/Screens/write_notes.dart';
 
 void main() {
