@@ -22,8 +22,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
+        home: const ShowNotes(),
         routes: {
-          "/": (context) => const ShowNotes(),
+          ShowNotes.routeName: (context) => const ShowNotes(),
           WriteNotes.routeName: (context) => WriteNotes(),
         },
       ),

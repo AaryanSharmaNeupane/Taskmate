@@ -6,7 +6,7 @@ import 'package:taskmate/Screens/write_notes.dart';
 
 class ShowNotes extends StatelessWidget {
   const ShowNotes({super.key});
-
+  static const routeName = "/show-notes";
   //If the description length is more than 90, this function truncates the length of the description
   String _truncateDescription(String description) {
     if (description.length > 90) {

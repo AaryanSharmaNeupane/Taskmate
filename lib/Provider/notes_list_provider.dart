@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NotesListProvider extends ChangeNotifier {
+  String _noteEditId = "";
   List<Map<String, dynamic>> notes = [
     {
       'id': '1',
@@ -26,6 +27,14 @@ class NotesListProvider extends ChangeNotifier {
     },
   ];
 
+  set setEditID(String id) {
+    _noteEditId = id;
+  }
+
+  String get getEditId {
+    return _noteEditId;
+  }
+
   void addNotes(note) {
     notes.add(note);
     notifyListeners();
@@ -33,6 +42,16 @@ class NotesListProvider extends ChangeNotifier {
 
   void deleteNotes(id) {
     notes.removeWhere((note) => note['id'] == id);
+    notifyListeners();
+  }
+
+  void editNotes(title, description, editId) {
+    for (int index = 0; index < notes.length; index++) {
+      if (notes[index]["id"] == editId) {
+        notes[index]["title"] = title;
+        notes[index]["description"] = description;
+      }
+    }
     notifyListeners();
   }
 }

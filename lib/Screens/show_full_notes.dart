@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
+import 'package:taskmate/Screens/write_notes.dart';
 
 class ShowFullNotes extends StatelessWidget {
   final String id, title, description;
@@ -13,17 +14,6 @@ class ShowFullNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final note = Provider.of<NotesListProvider>(context).notes;
-    // late String title;
-    // late String description;
-
-    // for (int index = 0; index < note.length; index++) {
-    //   if (note[index]['id'] == noteId) {
-    //     title = note[index]['title'];
-    //     description = note[index]['description'];
-    //   }
-    // }
-
     void deleteNote(String id) {
       Provider.of<NotesListProvider>(context, listen: false).deleteNotes(id);
       Navigator.of(context).pop();
@@ -63,7 +53,15 @@ class ShowFullNotes extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                TextButton(onPressed: () {}, child: const Text("Edit"))
+                ElevatedButton(
+                    onPressed: () {
+                      Provider.of<NotesListProvider>(context, listen: false)
+                          .setEditID = id;
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => WriteNotes()),
+                      );
+                    },
+                    child: const Text("Edit"))
               ],
             ),
           ),
