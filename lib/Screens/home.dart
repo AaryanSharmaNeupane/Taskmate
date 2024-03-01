@@ -4,13 +4,14 @@ import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/show_full_notes.dart';
 import 'package:taskmate/Screens/write_notes.dart';
 
-class ShowNotes extends StatelessWidget {
-  const ShowNotes({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
   static const routeName = "/show-notes";
-  //If the description length is more than 90, this function truncates the length of the description
+
+  //If the description length is more than 82, this function truncates the length of the description
   String _truncateDescription(String description) {
-    if (description.length > 90) {
-      return "${description.substring(0, 90)}...";
+    if (description.length > 82) {
+      return "${description.substring(0, 82)}...";
     } else {
       return description;
     }
@@ -22,9 +23,11 @@ class ShowNotes extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Taskmate",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: const Color.fromARGB(255, 236, 110, 211),
+        backgroundColor: Theme.of(context).primaryColorLight,
       ),
       body: Consumer<NotesListProvider>(
         builder: (context, notesProvider, child) => GridView.builder(
@@ -45,6 +48,7 @@ class ShowNotes extends StatelessWidget {
                   );
                 },
                 child: Card(
+                  color: Theme.of(context).primaryColorDark,
                   margin: const EdgeInsets.all(12),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -53,8 +57,11 @@ class ShowNotes extends StatelessWidget {
                       children: [
                         Text(
                           notesProvider.notes[index]['title'],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Theme.of(context).primaryColorLight,
+                          ),
                         ),
                         const SizedBox(height: 8.0),
                         Text(
@@ -72,7 +79,7 @@ class ShowNotes extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed(WriteNotes.routeName),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        backgroundColor: const Color.fromARGB(255, 236, 110, 211),
+        backgroundColor: Theme.of(context).primaryColorLight,
         child: const Icon(Icons.add),
       ),
     );

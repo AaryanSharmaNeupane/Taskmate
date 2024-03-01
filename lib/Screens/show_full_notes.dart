@@ -20,40 +20,62 @@ class ShowFullNotes extends StatelessWidget {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Taskmate",
-            style: TextStyle(color: Colors.white),
+      appBar: AppBar(
+        title: const Text(
+          "Taskmate",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          iconTheme: const IconThemeData(color: Colors.white),
-          actions: [
-            IconButton(
-              onPressed: () => deleteNote(id),
-              icon: const Icon(Icons.delete_forever_rounded),
-              color: Colors.white,
-            )
-          ],
-          backgroundColor: const Color.fromARGB(255, 236, 110, 211),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 26, fontWeight: FontWeight.bold),
+        backgroundColor: Theme.of(context).primaryColorLight,
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            onPressed: () => deleteNote(id),
+            icon: const Icon(Icons.delete_forever_rounded),
+            color: Colors.white,
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorDark,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.teal.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                )
+              ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColorLight,
                 ),
-                const Divider(),
-                Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 18,
                 ),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  ElevatedButton(
                     onPressed: () {
                       Provider.of<NotesListProvider>(context, listen: false)
                           .setEditID = id;
@@ -61,10 +83,28 @@ class ShowFullNotes extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => WriteNotes()),
                       );
                     },
-                    child: const Text("Edit"))
-              ],
-            ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.teal,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      "Edit",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

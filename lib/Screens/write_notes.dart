@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/home.dart';
+import 'package:taskmate/Widgets/notes_form.dart';
 import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
@@ -11,8 +10,8 @@ class WriteNotes extends StatelessWidget {
   WriteNotes({super.key});
 
   static const routeName = "/write_notes";
-  TextEditingController _title = TextEditingController();
-  TextEditingController _description = TextEditingController();
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
 
   void saveNotes(context, title, description, editId) {
     if (editId != "") {
@@ -20,7 +19,7 @@ class WriteNotes extends StatelessWidget {
           .editNotes(title, description, editId);
       Provider.of<NotesListProvider>(context, listen: false).setEditID = "";
       Navigator.of(context)
-          .pushNamedAndRemoveUntil(ShowNotes.routeName, (route) => false);
+          .pushNamedAndRemoveUntil(Home.routeName, (route) => false);
     } else {
       Provider.of<NotesListProvider>(context, listen: false).addNotes({
         "id": const Uuid()
@@ -29,11 +28,24 @@ class WriteNotes extends StatelessWidget {
         "description": description,
       });
     }
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Notes Saved")));
-    _title.clear();
-    _description.clear();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          "Notes Saved",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.teal,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   @override
@@ -47,9 +59,9 @@ class WriteNotes extends StatelessWidget {
     if (editId != "") {
       for (int index = 0; index < notesProvider.notes.length; index++) {
         if (notesProvider.notes[index]["id"] == editId) {
-          _title =
+          title =
               TextEditingController(text: notesProvider.notes[index]['title']);
-          _description = TextEditingController(
+          description = TextEditingController(
               text: notesProvider.notes[index]['description']);
         }
       }
@@ -57,47 +69,40 @@ class WriteNotes extends StatelessWidget {
     //
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Taskmate",
-          style: TextStyle(color: Colors.white),
+        appBar: AppBar(
+          title: const Text("Taskmate",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).primaryColorLight,
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: const Color.fromARGB(255, 236, 110, 211),
-      ),
-      body: ListView(
-        children: [
-          const ListTile(
-            title: Text("Title"),
-          ),
-          ListTile(
-            title: TextField(
-              controller: _title,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
+        body: Column(
+          children: [
+            notesForm(context, title, description),
+            ElevatedButton(
+              onPressed: () {
+                saveNotes(context, title.text, description.text, editId);
+                title.clear();
+                description.clear();
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-            ),
-          ),
-          const ListTile(
-            title: Text("Note"),
-          ),
-          ListTile(
-            title: TextField(
-              controller: _description,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              child: const Text(
+                "Save",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () =>
-                  saveNotes(context, _title.text, _description.text, editId),
-              child: const Text("Save")),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }

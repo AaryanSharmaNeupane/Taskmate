@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/home.dart';
-import 'package:taskmate/Screens/show_full_notes.dart';
 import 'package:taskmate/Screens/write_notes.dart';
 
 void main() {
@@ -18,13 +17,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Taskmate',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          primaryColorLight: Colors.teal,
+          primaryColorDark: const Color.fromARGB(255, 49, 46, 46),
+          fontFamily: 'Quicksand',
+          brightness: Brightness.dark,
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const ShowNotes(),
+        home: const Home(),
         routes: {
-          ShowNotes.routeName: (context) => const ShowNotes(),
+          Home.routeName: (context) => const Home(),
           WriteNotes.routeName: (context) => WriteNotes(),
         },
       ),
