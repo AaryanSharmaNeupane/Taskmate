@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/write_notes.dart';
 
 class ShowFullNotes extends StatelessWidget {
-  final String id, title, description;
+  final String id, title, description, imgPath;
+
   const ShowFullNotes(
       {super.key,
       required this.id,
       required this.title,
-      required this.description});
+      required this.description,
+      required this.imgPath});
   static const routeName = "/show_full_notes";
 
   @override
@@ -64,6 +68,24 @@ class ShowFullNotes extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
+              if (imgPath != "")
+                Container(
+                  height: 250,
+                  width: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      File(imgPath),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
                 description,
                 style: const TextStyle(
@@ -71,36 +93,32 @@ class ShowFullNotes extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<NotesListProvider>(context, listen: false)
-                          .setEditID = id;
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => WriteNotes()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.teal,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text(
-                      "Edit",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Provider.of<NotesListProvider>(context, listen: false)
+                        .setEditID = id;
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => WriteNotes()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.teal,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ],
-              )
+                  child: const Text(
+                    "Edit",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

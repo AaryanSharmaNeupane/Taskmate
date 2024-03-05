@@ -13,11 +13,19 @@ class WriteNotes extends StatelessWidget {
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
+  String imagePath = "";
 
   void saveNotes(context, title, description, editId) {
     if (editId != "") {
+      if (Provider.of<NotesListProvider>(context, listen: false).getImagePath !=
+              "" &&
+          Provider.of<NotesListProvider>(context, listen: false).getImagePath !=
+              imagePath) {
+        imagePath =
+            Provider.of<NotesListProvider>(context, listen: false).getImagePath;
+      }
       Provider.of<NotesListProvider>(context, listen: false)
-          .editNotes(title, description, editId);
+          .editNotes(title, description, editId, imagePath);
       Provider.of<NotesListProvider>(context, listen: false).setEditID = "";
       Navigator.of(context)
           .pushNamedAndRemoveUntil(Home.routeName, (route) => false);
@@ -27,8 +35,11 @@ class WriteNotes extends StatelessWidget {
             .v4(), //Here, Uuid package is used to create a universally unique id
         "title": title,
         "description": description,
+        "imgPath":
+            Provider.of<NotesListProvider>(context, listen: false).getImagePath
       });
     }
+    Provider.of<NotesListProvider>(context, listen: false).setImagePath = "";
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text(
@@ -64,6 +75,7 @@ class WriteNotes extends StatelessWidget {
               TextEditingController(text: notesProvider.notes[index]['title']);
           description = TextEditingController(
               text: notesProvider.notes[index]['description']);
+          imagePath = notesProvider.notes[index]['imgPath'];
         }
       }
     }
@@ -80,7 +92,10 @@ class WriteNotes extends StatelessWidget {
         ),
         body: Column(
           children: [
-            notesForm(context, title, description),
+            notesForm(context, title, description, imagePath),
+            const SizedBox(
+              height: 1,
+            ),
             ElevatedButton(
               onPressed: () {
                 if (title.text != "" || description.text != "") {

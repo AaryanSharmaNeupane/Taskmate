@@ -6,7 +6,7 @@ import 'package:taskmate/Screens/write_notes.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
-  static const routeName = "/show-notes";
+  static const routeName = "/home";
 
   //If the description length is more than 82, this function truncates the length of the description
   String _truncateDescription(String description) {
@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
         builder: (context, notesProvider, child) => notesProvider.notes.isEmpty
             ? const Center(
                 child: Text(
-                  "You don't have any notes!!😔",
+                  "You don't have any notes!!",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -54,6 +54,7 @@ class Home extends StatelessWidget {
                             title: notesProvider.notes[index]['title'],
                             description: notesProvider.notes[index]
                                 ['description'],
+                            imgPath: notesProvider.notes[index]['imgPath'],
                           ),
                         ),
                       );

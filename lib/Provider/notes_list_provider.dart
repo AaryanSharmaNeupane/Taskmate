@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class NotesListProvider extends ChangeNotifier {
   String _noteEditId = "";
+  String _imgPath = " ";
   List<Map<String, dynamic>> notes = [
     // {
     //   'id': '1',
@@ -35,6 +36,15 @@ class NotesListProvider extends ChangeNotifier {
     return _noteEditId;
   }
 
+  set setImagePath(String path) {
+    _imgPath = path;
+    notifyListeners();
+  }
+
+  get getImagePath {
+    return _imgPath;
+  }
+
   void addNotes(note) {
     notes.add(note);
     notifyListeners();
@@ -45,21 +55,14 @@ class NotesListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editNotes(title, description, editId) {
+  void editNotes(title, description, editId, imagePath) {
     for (int index = 0; index < notes.length; index++) {
       if (notes[index]["id"] == editId) {
         notes[index]["title"] = title;
         notes[index]["description"] = description;
+        notes[index]["imgPath"] = imagePath;
       }
     }
     notifyListeners();
-  }
-
-  void searchNotes(title) {
-    for (int index = 0; index < notes.length; index++) {
-      if (notes[index]["title"] == title) {
-        notes[index]["title"] = title;
-      }
-    }
   }
 }
