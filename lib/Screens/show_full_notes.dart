@@ -99,7 +99,8 @@ class ShowFullNotes extends StatelessWidget {
                     Provider.of<NotesListProvider>(context, listen: false)
                         .setEditID = id;
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => WriteNotes()),
+                      MaterialPageRoute(
+                          builder: (context) => const WriteNotes()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

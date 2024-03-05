@@ -3,19 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:taskmate/Provider/notes_list_provider.dart';
 import 'package:taskmate/Screens/show_full_notes.dart';
 import 'package:taskmate/Screens/write_notes.dart';
+import 'package:taskmate/Widgets/home_gridview_card.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
   static const routeName = "/home";
-
-  //If the description length is more than 82, this function truncates the length of the description
-  String _truncateDescription(String description) {
-    if (description.length > 82) {
-      return "${description.substring(0, 82)}...";
-    } else {
-      return description;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,46 +38,20 @@ class Home extends StatelessWidget {
                 itemCount: notesProvider.notes.length,
                 itemBuilder: ((context, index) {
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ShowFullNotes(
-                            id: notesProvider.notes[index]['id'],
-                            title: notesProvider.notes[index]['title'],
-                            description: notesProvider.notes[index]
-                                ['description'],
-                            imgPath: notesProvider.notes[index]['imgPath'],
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ShowFullNotes(
+                              id: notesProvider.notes[index]['id'],
+                              title: notesProvider.notes[index]['title'],
+                              description: notesProvider.notes[index]
+                                  ['description'],
+                              imgPath: notesProvider.notes[index]['imgPath'],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      color: Theme.of(context).primaryColorDark,
-                      margin: const EdgeInsets.all(12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              notesProvider.notes[index]['title'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Theme.of(context).primaryColorLight,
-                              ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              _truncateDescription(
-                                  notesProvider.notes[index]['description']),
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                        );
+                      },
+                      child: homeGridviewCard(context, notesProvider, index));
                 })),
       ),
       floatingActionButton: FloatingActionButton(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class NotesListProvider extends ChangeNotifier {
   String _noteEditId = "";
-  String _imgPath = " ";
+
   List<Map<String, dynamic>> notes = [
     // {
     //   'id': '1',
@@ -34,15 +34,6 @@ class NotesListProvider extends ChangeNotifier {
 
   String get getEditId {
     return _noteEditId;
-  }
-
-  set setImagePath(String path) {
-    _imgPath = path;
-    notifyListeners();
-  }
-
-  get getImagePath {
-    return _imgPath;
   }
 
   void addNotes(note) {
